@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2025 a las 20:13:26
+-- Tiempo de generación: 28-09-2025 a las 20:39:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cursos_online`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id_categoria` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +60,8 @@ CREATE TABLE `cursos` (
   `categoria` varchar(100) DEFAULT NULL,
   `duracion_horas` int(11) DEFAULT NULL,
   `fecha_creacion` datetime DEFAULT current_timestamp(),
-  `activo` tinyint(1) DEFAULT 1
+  `activo` tinyint(1) DEFAULT 1,
+  `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -76,7 +89,8 @@ CREATE TABLE `modulos` (
   `id_curso` int(11) NOT NULL,
   `titulo` varchar(200) NOT NULL,
   `contenido` text DEFAULT NULL,
-  `orden` int(11) NOT NULL
+  `orden` int(11) NOT NULL,
+  `estado` enum('Activo','Inactivo') DEFAULT 'Activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -133,6 +147,8 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(100) NOT NULL,
+  `documento` varchar(20) DEFAULT NULL,
+  `edad` int(3) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(255) NOT NULL,
   `fecha_registro` datetime DEFAULT current_timestamp()
@@ -141,6 +157,12 @@ CREATE TABLE `usuarios` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id_categoria`);
 
 --
 -- Indices de la tabla `certificados`
@@ -154,7 +176,8 @@ ALTER TABLE `certificados`
 -- Indices de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  ADD PRIMARY KEY (`id_curso`);
+  ADD PRIMARY KEY (`id_curso`),
+  ADD KEY `fk_cursos_categoria` (`id_categoria`);
 
 --
 -- Indices de la tabla `inscripciones`
@@ -204,6 +227,12 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `certificados`
@@ -262,6 +291,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `certificados`
   ADD CONSTRAINT `certificados_ibfk_1` FOREIGN KEY (`id_inscripcion`) REFERENCES `inscripciones` (`id_inscripcion`);
+
+--
+-- Filtros para la tabla `cursos`
+--
+ALTER TABLE `cursos`
+  ADD CONSTRAINT `fk_cursos_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
 
 --
 -- Filtros para la tabla `inscripciones`

@@ -66,7 +66,7 @@ body {
   padding-top: 90px; /* para el contenido normal */
 }
 
-/* si querés sólo mover la sección de contacto */
+/* solo mover la sección de contacto */
 #contacto {
   padding-top: calc(3rem + 70px); /* 3rem de py-5 + altura navbar */
 }
@@ -96,4 +96,5 @@ body {
   color: #fff; /* mantiene blanco el icono */
   text-decoration: none;
 }
+
 

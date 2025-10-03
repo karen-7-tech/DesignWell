@@ -1,6 +1,6 @@
 /* ---- Estilos generales ---- */
 body {
-  font-family: 'Quicksand', sans-serif; /* Fuente de Google Fonts que ya cargaste */
+  font-family: 'Quicksand', sans-serif; /* Fuente de Google Fonts */
   background-color: #f8f9fa; /* Gris claro */
   color: #333;
 }
@@ -96,3 +96,4 @@ body {
   color: #fff; /* mantiene blanco el icono */
   text-decoration: none;
 }
+
